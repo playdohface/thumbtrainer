@@ -5,8 +5,16 @@ on:
     branches:
       - main # or 'master', adjust to your main branch name
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -20,13 +28,17 @@ jobs:
       - name: Install dependencies
         run: npm install # Or yarn install or pnpm install
 
-      - name: Configure Git
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+      - name: Build
+        run: npm run build # Or yarn build or pnpm build
 
-      - name: Build and Deploy
-        env:
-          GITHUB_PAGES: true
-        run: |
-          npm run deploy  # Or yarn deploy or pnpm deploy
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./dist # Or ./build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

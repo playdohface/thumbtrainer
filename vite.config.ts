@@ -5,9 +5,9 @@ const isGithubPages =
   process.env.GITHUB_PAGES === "true" || process.env.NODE_ENV === "production";
 
 export default defineConfig({
-  base: isGithubPages ? "/<repository-name>/" : "/", // Replace <repository-name> with your GitHub repository name
+  base: isGithubPages ? "/thumbtrainer/" : "/",
   build: {
-    outDir: "dist", // or 'build', depending on your project
-    emptyOutDir: true, // recommended to ensure clean builds
+    outDir: "dist",
+    emptyOutDir: true,
   },
 });

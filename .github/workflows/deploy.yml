@@ -15,12 +15,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18 # Or your preferred Node.js version
 
       - name: Install dependencies
-        run: npm install
+        run: npm install # Or yarn install or pnpm install
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
 
       - name: Build and Deploy
         env:
           GITHUB_PAGES: true
-        run: npm run deploy
+        run: |
+          npm run deploy  # Or yarn deploy or pnpm deploy
